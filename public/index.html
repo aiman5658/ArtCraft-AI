@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="theme-color" content="#FDFBF7" />
+
+    <meta
+      name="description"
+      content="ArtCraft AI — Your creative assistant for art, crafts, design and DIY projects."
+    />
+
+    <title>ArtCraft AI — Creative Assistant</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="/style.css?v=20260917-1" />
+
+    <script>
+      window.__SUPABASE_CONFIG__ = {
+        url: "https://xfpwayqykwaqivjxuaou.supabase.co",
+        anonKey:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhmcHdheXF5a3dhcWl2anh1YW91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0OTE3ODIsImV4cCI6MjEwNTA2Nzc4Mn0.TmzUB5znajp1kQjIJqs1ZG-gelIifVkyWDUtTjNAUyk",
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.js"></script>
+    <script src="/script.js?v=20260917-1" defer></script>
+  </head>
+
+  <body>
+    <div id="authScreen" class="auth-screen">
+      <div class="auth-card">
+        <div class="auth-brand">
+          <div class="auth-icon">✦</div>
+          <div>
+            <h1>ArtCraft AI</h1>
+            <p id="authTitle">Log in to continue</p>
+          </div>
+        </div>
+
+        <form id="authForm" class="auth-form">
+          <label class="auth-field">
+            <span>Email</span>
+            <input
+              id="authEmail"
+              type="email"
+              placeholder="you@example.com"
+              required
+            />
+          </label>
+
+          <label class="auth-field password-field">
+            <span>Password</span>
+
+            <div class="password-wrap">
+              <input
+                id="authPassword"
+                type="password"
+                placeholder="Your password"
+                required
+              />
+
+              <button
+                id="passwordToggle"
+                type="button"
+                class="password-toggle"
+                aria-label="Show password"
+              >
+                👁
+              </button>
+            </div>
+          </label>
+
+          <button id="authSubmit" type="submit">Log in</button>
+
+          <button id="authForgotPassword" type="button" class="auth-link">
+            Forgot password?
+          </button>
+
+          <button id="authModeToggle" type="button" class="auth-toggle">
+            Need an account? Sign up
+          </button>
+
+          <p id="authStatus" class="auth-status"></p>
+        </form>
+      </div>
+    </div>
+
+    <div id="app" class="app-shell hidden">
+      <!-- =========================================
+           SIDEBAR
+      ========================================== -->
+
+      <aside id="sidebar" class="sidebar">
+        <!-- Sidebar Header -->
+
+        <div class="sidebar-head">
+          <div class="brand">
+            <div class="brand-icon">✦</div>
+
+            <div class="brand-copy">
+              <strong> ArtCraft </strong>
+
+              <span> Creative Intelligence </span>
+            </div>
+          </div>
+
+          <button
+            id="closeSidebar"
+            class="icon-btn mobile-only"
+            type="button"
+            aria-label="Close sidebar"
+          >
+            ×
+          </button>
+        </div>
+
+        <!-- New Chat -->
+
+        <button id="newChatBtn" class="new-chat" type="button">
+          <span class="new-chat-icon"> ＋ </span>
+
+          <span> New conversation </span>
+        </button>
+
+        <!-- Search -->
+
+        <label class="search">
+          <span class="search-icon"> ⌕ </span>
+
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="Search conversations"
+            autocomplete="off"
+          />
+        </label>
+
+        <!-- Conversation Label -->
+
+        <div class="section-label">Conversations</div>
+
+        <!-- Chat List -->
+
+        <div id="chatList" class="chat-list"></div>
+
+        <!-- Sidebar Footer -->
+
+        <div class="sidebar-footer">
+          <div class="specialist">
+            <div class="mini-icon">✦</div>
+
+            <div class="specialist-copy">
+              <b> Art & Craft Specialist </b>
+
+              <span> Ideas · tutorials · techniques </span>
+            </div>
+
+            <span class="status-dot"></span>
+          </div>
+
+          <button id="logoutBtn" class="sidebar-logout" type="button">
+            Log out
+          </button>
+        </div>
+      </aside>
+
+      <!-- =========================================
+           MAIN
+      ========================================== -->
+
+      <main class="main">
+        <!-- =========================================
+             TOPBAR
+        ========================================== -->
+
+        <header class="topbar">
+          <!-- Left -->
+
+          <div class="topbar-left">
+            <button
+              id="toggleSidebar"
+              class="icon-btn"
+              type="button"
+              aria-label="Toggle sidebar"
+            >
+              ☰
+            </button>
+          </div>
+
+          <!-- Center -->
+
+          <div class="topbar-title">
+            <div class="topbar-brand">
+              <span class="topbar-star"> ✦ </span>
+
+              <strong> ArtCraft AI </strong>
+            </div>
+
+            <span class="topbar-subtitle"> Your creative workspace </span>
+
+            <div
+              id="modeIndicator"
+              class="topbar-mode hidden"
+              aria-live="polite"
+            >
+              <span class="mode-dot"></span>
+              <span id="modeIndicatorText">Painting mode</span>
+            </div>
+          </div>
+
+          <!-- Right -->
+
+          <div class="topbar-right">
+            <button
+              id="topNewChat"
+              class="icon-btn"
+              type="button"
+              aria-label="New chat"
+              title="New conversation"
+            >
+              ＋
+            </button>
+          </div>
+        </header>
+
+        <!-- =========================================
+             CONVERSATION
+        ========================================== -->
+
+        <section id="conversation" class="conversation">
+          <!-- =======================================
+               WELCOME SCREEN
+          ======================================== -->
+
+          <div id="welcome" class="welcome">
+            <!-- =====================================
+                 ARTCRAFT AI LOGO
+            ====================================== -->
+
+            <div class="main-logo">
+              <div class="main-logo-icon">✦</div>
+
+              <div class="main-logo-text">ArtCraft AI</div>
+            </div>
+
+            <!-- =====================================
+                 FOUR ART & CRAFT CATEGORIES
+            ====================================== -->
+
+            <div class="craft-categories">
+              <!-- PAINTING -->
+
+              <button
+                class="craft-category"
+                type="button"
+                data-prompt="Help me with a painting project. Give me ideas, materials, techniques, and step-by-step instructions."
+              >
+                <span class="craft-category-icon"> 🎨 </span>
+
+                <span> Painting </span>
+              </button>
+
+              <!-- SKETCHING -->
+
+              <button
+                class="craft-category"
+                type="button"
+                data-prompt="Help me with a sketching project. Give me ideas, techniques, materials, and step-by-step guidance."
+              >
+                <span class="craft-category-icon"> ✏️ </span>
+
+                <span> Sketching </span>
+              </button>
+
+              <!-- KNITTING -->
+
+              <button
+                class="craft-category"
+                type="button"
+                data-prompt="Help me with a knitting project. Recommend a suitable project, yarn, needles, techniques, and step-by-step instructions."
+              >
+                <span class="craft-category-icon"> 🧶 </span>
+
+                <span> Knitting </span>
+              </button>
+
+              <!-- CRAFTING -->
+
+              <button
+                class="craft-category"
+                type="button"
+                data-prompt="Help me with a creative crafting project. Suggest an interesting project with materials and detailed step-by-step instructions."
+              >
+                <span class="craft-category-icon"> ✂️ </span>
+
+                <span> Crafting </span>
+              </button>
+            </div>
+          </div>
+
+          <!-- =========================================
+               MESSAGES
+          ========================================== -->
+
+          <div id="messages" class="messages hidden"></div>
+        </section>
+
+        <!-- =========================================
+             COMPOSER
+        ========================================== -->
+
+        <footer class="composer-area">
+          <!-- Attachment Preview -->
+
+          <div id="attachmentPreview" class="attachment-preview hidden"></div>
+
+          <!-- Composer -->
+
+          <div class="composer">
+            <!-- Image Upload -->
+
+            <input id="imageInput" type="file" accept="image/*" hidden />
+
+            <!-- Attach -->
+
+            <button
+              id="attachBtn"
+              class="composer-btn attach-btn"
+              type="button"
+              title="Attach image"
+              aria-label="Attach image"
+            >
+              +
+            </button>
+
+            <!-- Message Input -->
+
+            <textarea
+              id="messageInput"
+              rows="1"
+              placeholder="Message ArtCraft AI…"
+              autocomplete="off"
+            ></textarea>
+
+            <!-- Speech To Text -->
+
+            <button
+              id="micBtn"
+              class="composer-btn mic-btn"
+              type="button"
+              title="Speech to text"
+              aria-label="Speech to text"
+            >
+              🎙
+            </button>
+
+            <!-- Send -->
+
+            <button
+              id="sendBtn"
+              class="composer-btn send-btn"
+              type="button"
+              title="Send"
+              aria-label="Send message"
+            >
+              ➤
+            </button>
+          </div>
+
+          <!-- Composer Meta -->
+
+          <div class="composer-meta">
+            <div class="composer-note">
+              AI can make mistakes. Verify safety instructions and material
+              specifications.
+            </div>
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <!-- =========================================
+         TOAST
+    ========================================== -->
+
+    <div id="toast" class="toast"></div>
+
+    <!-- =========================================
+         RENAME MODAL
+    ========================================== -->
+
+    <div id="renameModal" class="modal-backdrop" aria-hidden="true">
+      <div
+        class="rename-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="renameTitle"
+      >
+        <div class="delete-modal-header">
+          <h3 id="renameTitle">Rename conversation</h3>
+        </div>
+
+        <label class="rename-field" for="renameInput">
+          <span>Conversation name</span>
+          <input id="renameInput" type="text" maxlength="100" />
+        </label>
+
+        <div class="delete-modal-actions">
+          <button id="renameCancel" class="modal-btn secondary" type="button">
+            Cancel
+          </button>
+          <button id="renameConfirm" class="modal-btn primary" type="button">
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         DELETE CONFIRMATION MODAL
+    ========================================== -->
+
+    <div id="deleteConfirmModal" class="modal-backdrop" aria-hidden="true">
+      <div
+        class="delete-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="deleteConfirmTitle"
+      >
+        <div class="delete-modal-header">
+          <h3 id="deleteConfirmTitle">Delete conversation?</h3>
+        </div>
+
+        <p id="deleteConfirmText">Delete this conversation permanently?</p>
+
+        <div class="delete-modal-actions">
+          <button
+            id="deleteConfirmCancel"
+            class="modal-btn secondary"
+            type="button"
+          >
+            Cancel
+          </button>
+          <button
+            id="deleteConfirmConfirm"
+            class="modal-btn danger"
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+         MARKDOWN
+    ========================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  </body>
+</html>

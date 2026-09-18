@@ -1,0 +1,16 @@
+{
+  "name": "artcraft-ai",
+  "version": "1.0.0",
+  "description": "A polished Art & Craft AI chatbot with Supabase chat history and speech-to-text.",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.0",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "@google/genai": "^1.0.0"
+  }
+}
